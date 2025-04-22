@@ -2,6 +2,7 @@ import localforage from "localforage";
 import { useState, useEffect } from "react";
 
 import { isTodos } from "./lib/isTodos";
+import { isFilter } from "./lib/isFilter";
 
 export const App = () => {
   const [text, setText] = useState("");
@@ -66,21 +67,30 @@ export const App = () => {
         return todo;
     }
   });
-
+  console.log(filter);
+  console.log(filteredTodos);
+  console.log(todos);
   useEffect(() => {
     localforage
       .getItem("todo-20200101")
       .then((values) => isTodos(values) && setTodos(values));
+    localforage
+      .getItem("filter-20200102")
+      .then((values) => isFilter(values) && setFilter(values));
   }, []);
 
   useEffect(() => {
     localforage.setItem("todo-20200101", todos);
   }, [todos]);
+  useEffect(() => {
+    localforage.setItem("filter-20200102", filter);
+  }, [filter]);
 
   return (
     <div>
       <select
-        defaultValue="all"
+        //defaultValue="all"
+        value={filter} //<select> の現在の選択肢を filter の状態に基づいて制御するため
         onChange={(e) => handleFilter(e.target.value as Filter)}
       >
         <option value="all">すべてのタスク</option>
