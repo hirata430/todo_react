@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { isTodos } from "./lib/isTodos";
 import { isFilter } from "./lib/isFilter";
@@ -53,7 +53,7 @@ export const App = () => {
     setTodos((todos) => todos.filter((todo) => !todo.removed));
   };
 
-  const filteredTodos = todos.filter((todo) => {
+  /*const filteredTodos = todos.filter((todo) => {
     switch (filter) {
       case "all":
         return !todo.removed;
@@ -66,10 +66,25 @@ export const App = () => {
       default:
         return todo;
     }
-  });
-  console.log(filter);
-  console.log(filteredTodos);
-  console.log(todos);
+  });*/
+  const filteredTodos = useMemo(() => {
+    //
+    return todos.filter((todo) => {
+      switch (filter) {
+        case "all":
+          return !todo.removed;
+        case "checked":
+          return todo.checked && !todo.removed;
+        case "unchecked":
+          return !todo.checked && !todo.removed;
+        case "removed":
+          return todo.removed;
+        default:
+          return true;
+      }
+    });
+  }, [todos, filter]);
+
   useEffect(() => {
     localforage
       .getItem("todo-20200101")
