@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "all": "すべてのタスク",
+    "checked": "完了したタスク",
+    "unchecked": "現在のタスク",
+    "removed": "ごみ箱",
+    "lan_ja": "日本語",
+    "lan_en": "英語"
+  },
+  "button": {
+    "emptyTrash": "ごみ箱を空にする",
+    "add": "追加",
+    "delete": "削除",
+    "restore": "復元"
+  }
+}

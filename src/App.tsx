@@ -1,5 +1,7 @@
 import localforage from "localforage";
 import { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "./i18n/configs";
 
 import { isTodos } from "./lib/isTodos";
 import { isFilter } from "./lib/isFilter";
@@ -8,6 +10,14 @@ export const App = () => {
   const [text, setText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
+  //const [language, setLanguage] = useState(i18n.language);
+  const { t } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    //t(lng);
+    i18n.changeLanguage(lng);
+    localStorage.setItem("i18nextLng", lng);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -108,17 +118,25 @@ export const App = () => {
         value={filter} //<select> の現在の選択肢を filter の状態に基づいて制御するため
         onChange={(e) => handleFilter(e.target.value as Filter)}
       >
-        <option value="all">すべてのタスク</option>
-        <option value="checked">完了したタスク</option>
-        <option value="unchecked">現在のタスク</option>
-        <option value="removed">ごみ箱</option>
+        <option value="all">{t("filter.all")}</option>
+        <option value="checked">{t("filter.checked")}</option>
+        <option value="unchecked">{t("filter.unchecked")}</option>
+        <option value="removed">{t("filter.removed")}</option>
       </select>
+      <select
+        //defaultValue={"i18n.language"}
+        onChange={(e) => changeLanguage(e.target.value)}
+      >
+        <option value="en">English</option>
+        <option value="ja">{t("filter.lan_ja")}</option>
+      </select>
+
       {filter === "removed" ? (
         <button
           onClick={handleEmpty}
           disabled={todos.filter((todo) => todo.removed).length === 0}
         >
-          ごみ箱を空にする
+          {t("button.emptyTrash")}
         </button>
       ) : (
         filter !== "checked" && (
@@ -129,7 +147,11 @@ export const App = () => {
             }}
           >
             <input type="text" value={text} onChange={(e) => handleChange(e)} />
-            <input type="submit" value="追加" onSubmit={handleSubmit} />
+            <input
+              type="submit"
+              value={t("button.add")}
+              onSubmit={handleSubmit}
+            />
           </form>
         )
       )}
@@ -152,7 +174,7 @@ export const App = () => {
               <button
                 onClick={() => handleTodo(todo.id, "removed", !todo.removed)}
               >
-                {todo.removed ? "復元" : "削除"}
+                {todo.removed ? t("button.restore") : t("button.delete")}
               </button>
             </li>
           );

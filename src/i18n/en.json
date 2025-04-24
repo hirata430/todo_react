@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "all": "All Tasks",
+    "checked": "Completed Tasks",
+    "unchecked": "Current Tasks",
+    "removed": "Trash",
+    "lan_ja": "Japanese",
+    "lan_en": "English"
+  },
+  "button": {
+    "emptyTrash": "Empty Trash",
+    "add": "Add",
+    "delete": "Delete",
+    "restore": "Restore"
+  }
+}
