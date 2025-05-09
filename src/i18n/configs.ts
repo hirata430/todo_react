@@ -14,7 +14,6 @@ i18n
       ja: { translation: translation_ja },
     },
     fallbackLng: "en", //言語が検出されない場合の言語
-    //lng: "ja",
     interpolation: { escapeValue: false },
     detection: {
       order: ["localStorage", "navigator"], //言語の検出順序
